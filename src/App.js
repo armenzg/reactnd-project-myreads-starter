@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
+
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import Book from './Book'
+import { Book } from './Book'
 
-class BooksApp extends React.Component {
+
+class BooksApp extends Component {
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -18,6 +20,20 @@ class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({books: books})
+    })
+  }
+
+  moveBook = (book, shelf) => {
+    BooksAPI.update(book, shelf).then((ret) => {
+      this.setState((state) => ({
+        books: Object.keys(state.books).map((keyName, index) => {
+          const b = state.books[keyName]
+          if (b === book) {
+            b.shelf = shelf
+          }
+          return b
+        })
+      }))
     })
   }
 
@@ -58,7 +74,11 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.books.filter(book =>
                         book.shelf === 'currentlyReading').map((book, index) =>
-                        <Book book={book} key={index} />
+                        <Book
+                          onChange={this.moveBook}
+                          book={book}
+                          key={index}
+                          shelf='currentlyReading' />
                       )}
                     </ol>
                   </div>
@@ -69,7 +89,11 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.books.filter(book =>
                         book.shelf === 'wantToRead').map((book, index) =>
-                        <Book book={book} key={index} />
+                        <Book
+                          onChange={this.moveBook}
+                          book={book}
+                          key={index}
+                          shelf='wantToRead' />
                       )}
                     </ol>
                   </div>
@@ -80,7 +104,11 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.books.filter(book =>
                         book.shelf === 'read').map((book, index) =>
-                        <Book book={book} key={index} />
+                        <Book
+                          onChange={this.moveBook}
+                          book={book}
+                          key={index}
+                          shelf='read' />
                       )}
                     </ol>
                   </div>
