@@ -53,9 +53,11 @@ export function Book(props) {
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors.map((author, index) =>
-            <span key={index}>{author}</span>
-          )}</div>
+          <div className="book-authors">{book.authors ? (
+            book.authors.map((author, index) => (
+              <span key={index}>{author}</span>
+            ))) : (<span></span>)
+          }</div>
         </div>
       </li>
     )

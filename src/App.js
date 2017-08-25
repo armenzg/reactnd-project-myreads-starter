@@ -14,8 +14,21 @@ class BooksApp extends Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false,
-    books: []
+    books: [],
+    foundBooks: [],
+    query: '',
+    showSearchPage: false
+  }
+
+  updateQuery = (query) => {
+    this.setState({ query: query.trim()})
+    if (query) {
+      BooksAPI.search(query, 20).then(books =>
+        this.setState({foundBooks: books})
+      ).catch(error =>
+        this.setState({foundBooks: ''})
+      )
+    }
   }
 
   componentDidMount() {
@@ -39,7 +52,11 @@ class BooksApp extends Component {
   }
 
   hideSearch = () => {
-    this.setState({ showSearchPage: false })
+    this.setState({
+      showSearchPage: false,
+      foundBooks: '',
+      query: ''
+    })
   }
 
   showSearch = () => {
@@ -51,7 +68,10 @@ class BooksApp extends Component {
       <div className="app">
         {this.state.showSearchPage ? (
           <SearchBook
+            value={this.state.query}
             onHideSearch={this.hideSearch}
+            onChange={this.updateQuery}
+            foundBooks={this.state.foundBooks}
           />
         ) : (
           <ListBooks
