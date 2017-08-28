@@ -36,22 +36,29 @@ class BooksApp extends Component {
       this.setState((state) => ({
         books: Object.keys(state.books).map((keyName, index) => {
           const b = state.books[keyName]
-          if (b === book) {
+          if (b.id === book.id) {
             b.shelf = shelf
           }
           return b
         })
       }))
-    })
+    }).catch(error =>
+      console.log(error)
+    )
   }
 
   addToLibrary = (book, shelf) => {
-    book.shelf = shelf
-    BooksAPI.update(book, shelf).then((ret) => {
-      this.setState(state => ({
-        books: state.books.concat(book)
-      }))
-    })
+    var foundBook = this.state.books.filter(b => b.id === book.id)
+    if (foundBook.length === 0) {
+      book.shelf = shelf
+      BooksAPI.update(book, shelf).then((ret) => {
+        this.setState(state => ({
+          books: state.books.concat(book)
+        }))
+      })
+    } else {
+      this.moveBook(book, shelf)
+    }
   }
 
   render() {
