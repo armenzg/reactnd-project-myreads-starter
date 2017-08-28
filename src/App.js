@@ -18,7 +18,15 @@ class BooksApp extends Component {
     this.setState({ query: query.trim()})
     if (query) {
       BooksAPI.search(query, 20).then(books =>
-        this.setState({foundBooks: books})
+        this.setState((state) => ({
+          foundBooks: books.map(b => {
+            const bookInShelf = state.books.filter(book => book.id === b.id)
+            if (bookInShelf.length === 1) {
+              b.shelf = bookInShelf[0].shelf
+            }
+            return b
+          })
+        }))
       ).catch(error =>
         this.setState({foundBooks: ''})
       )
