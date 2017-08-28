@@ -45,6 +45,15 @@ class BooksApp extends Component {
     })
   }
 
+  addToLibrary = (book, shelf) => {
+    book.shelf = shelf
+    BooksAPI.update(book, shelf).then((ret) => {
+      this.setState(state => ({
+        books: state.books.concat(book)
+      }))
+    })
+  }
+
   render() {
     return (
       <div className="app">
@@ -54,6 +63,7 @@ class BooksApp extends Component {
             onHideSearch={() =>
               history.push('/')}
             onChange={this.updateQuery}
+            onAddToLibrary={this.addToLibrary}
             foundBooks={this.state.foundBooks}
           />
         )}/>

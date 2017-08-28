@@ -33,6 +33,7 @@ export function SearchBook(props) {
               <Book
                 book={book}
                 key={index}
+                onChange={props.onAddToLibrary}
               />
             ))) : (<span></span>)
           }
