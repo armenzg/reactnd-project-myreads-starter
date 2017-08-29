@@ -1,10 +1,7 @@
 import React from 'react'
 
-export function SelectShelf(props) {
-  let shelf = props.shelf
-  if (!shelf) {
-    shelf = 'none'
-  }
+export const SelectShelf = (props) => {
+  const shelf = props.shelf || "none";
   return(
     <select onChange={props.onChange} value={shelf}>
       <option value="none" disabled>Move to...</option>
@@ -13,5 +10,5 @@ export function SelectShelf(props) {
       <option value="read">Read</option>
       <option value="none">None</option>
     </select>
-  )
-}
+  );
+};

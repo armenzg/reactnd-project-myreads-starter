@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
-
 import './App.css'
+
 import * as BooksAPI from './BooksAPI'
 import { SearchBook } from './Search'
 import { ListBooks } from './ListBooks'
-
 
 class BooksApp extends Component {
   state = {
@@ -28,14 +27,16 @@ class BooksApp extends Component {
           })
         }))
       ).catch(error =>
-        this.setState({foundBooks: ''})
+        this.setState({foundBooks: []})
       )
+    } else {
+      this.setState({foundBooks: []})
     }
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState({books: books})
+      this.setState({ books })
     })
   }
 
@@ -56,8 +57,8 @@ class BooksApp extends Component {
   }
 
   addToLibrary = (book, shelf) => {
-    let foundBook = this.state.books.filter(b => b.id === book.id)
-    if (foundBook.length === 0) {
+    let foundBook = this.state.books.find((element) => (element.id === book.id))
+    if (!foundBook) {
       book.shelf = shelf
       BooksAPI.update(book, shelf).then((ret) => {
         this.setState(state => ({

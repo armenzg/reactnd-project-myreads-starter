@@ -2,12 +2,12 @@ import React from 'react'
 
 import { Book } from './Book'
 
-export function SearchBook(props) {
+export const SearchBook = ({ onHideSearch, value, foundBooks, onAddToLibrary, onChange }) => {
   return (
     <div className="search-books">
       <div className="search-books-bar">
         <a className="close-search"
-          onClick={props.onHideSearch}>Close</a>
+          onClick={onHideSearch}>Close</a>
         <div className="search-books-input-wrapper">
           {/*
             NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -21,19 +21,19 @@ export function SearchBook(props) {
           <input
             type="text"
             placeholder="Search by title or author"
-            value={props.value}
-            onChange={(event) => props.onChange(event.target.value)}
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
           />
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {props.foundBooks ? (
-            props.foundBooks.map((book, index) => (
+          {foundBooks ? (
+            foundBooks.map((book, index) => (
               <Book
                 book={book}
                 key={index}
-                onChange={props.onAddToLibrary}
+                onChange={onAddToLibrary}
               />
             ))) : (<span></span>)
           }

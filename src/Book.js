@@ -33,8 +33,7 @@ import { SelectShelf } from './SelectShelf'
   subtitle:"A Complete Introduction"
   title:"The Linux Command Line"
 */
-export function Book(props) {
-    let book = props.book
+export const Book = ({ book, onChange }) => {
     return (
       <li>
         <div className="book">
@@ -47,17 +46,14 @@ export function Book(props) {
             </div>
             <div className="book-shelf-changer">
               <SelectShelf
-                onChange={(event) => props.onChange(book, event.target.value)}
+                onChange={(event) => onChange(book, event.target.value)}
                 shelf={book.shelf}
               />
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors ? (
-            book.authors.map((author, index) => (
-              <span key={index}>{author}</span>
-            ))) : (<span></span>)
-          }</div>
+          <div className="book-authors">{book.authors ?
+            book.authors.join(', ') : ''}</div>
         </div>
       </li>
     )
