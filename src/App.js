@@ -56,7 +56,7 @@ class BooksApp extends Component {
   }
 
   addToLibrary = (book, shelf) => {
-    var foundBook = this.state.books.filter(b => b.id === book.id)
+    let foundBook = this.state.books.filter(b => b.id === book.id)
     if (foundBook.length === 0) {
       book.shelf = shelf
       BooksAPI.update(book, shelf).then((ret) => {

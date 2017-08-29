@@ -34,7 +34,7 @@ import { SelectShelf } from './SelectShelf'
   title:"The Linux Command Line"
 */
 export function Book(props) {
-    var book = props.book
+    let book = props.book
     return (
       <li>
         <div className="book">
